@@ -1,0 +1,47 @@
+<html>
+
+<head>
+  <title>What is this animal?</title>
+  <link rel="stylesheet" type="text/css" href="game.css"/>
+  <script src="gamedata.js"></script>
+  <script src="game.js"></script>
+</head>
+
+<body id='body'>
+  <h1>What is this <span class='gameType'></span>?</h1>
+  <div id="gameLoading">
+    <p>Please choose which game to play?</p>
+  </div>
+  <div id="gameStarted">
+    <div id="headerRow">
+      <p>
+        This is a guessing game for children, to learn about <span class='gameType'></span>
+        <button id="restartButton" onClick="window.location.reload(true)">Restart</button>
+      </p>
+    </div>
+
+    <div id="imageRow">
+      <img id="image" src=""></img>
+    </div>
+
+    <div id="buttonRow">
+      <p>What type of animal do you think this is?</p>
+      <button id="option1" isCorrect='false' onclick="clickButton(this)"></button>
+      <button id="option2" isCorrect='true' onclick="clickButton(this)"></button>
+      <button id="option3" isCorrect='false' onclick="clickButton(this)"></button>
+    </div>
+    <div id="answerRow">
+      <p id="answerCorrect">You are correct!
+        <button onclick="nextAnswer()">next</button>
+      </p>
+      <p id="answerWrong">That is not correct, it is an <span id="correctAnimal"></span> 
+        <button onclick="nextAnswer()">next</button>
+      </p>
+    </div>
+  </div>
+</body>
+<script>
+  initGame();
+</script>
+
+</html>

@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  background-color: rgb(128, 206, 38);
+  text-align: center;
+}
+
+#gameLoading {
+  font-size: 25px;
+  text-align: center;
+}
+
+#headerRow {
+  font-size: 25px;
+  text-align: center;
+}
+
+#imageRow {
+  text-align: center;
+}
+
+#image {
+  height: 300px;
+}
+
+#buttonRow {
+  padding-top: 30px;
+  text-align: center;
+}
+
+button {
+  font-size: 30px;
+}
+
+#answerRow {
+  padding-top: 30px;
+  font-size: 30px;
+  text-align: center;
+}
+
+#answerCorrect {
+  display: none;
+  color: lightgreen;
+}
+
+#answerWrong {
+  display: none;
+  color: red;
+}
