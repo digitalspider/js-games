@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Grid -->
+  <style>
+    table, th, td {
+      border: 25px solid white;
+      border-collapse: collapse;
+    }
+  </style>
+  <script>
+    function changeImage(elementClicked) {
+      // console.log(elementClicked.getAttribute('id'));
+      var source = elementClicked.getAttribute('src');
+      if (source.match("https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg")) {
+        elementClicked.src = "https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_x.jpg";
+      } else if (source.match("https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_x.jpg")){
+        elementClicked.src = "https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_o.jpg";
+      } else {
+  	    elementClicked.src = "https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg"
+      }
+      var xWon = isFinished('x');
+      var oWon = isFinished('o');
+      if (xWon) {
+        console.log("X Won!");
+      } else if (oWon) {
+        console.log("O Won!");
+      }
+    }
+    function isFinished(letter) {
+      var allImages = document.getElementsByTagName('img');
+      var allX = [];
+      for (square of allImages) {
+        if (square.src.match(`https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_${letter}.jpg`)) {
+          allX.push(Number(square.id.substring(7,8)));
+        }
+      }
+      console.log(allX);
+      var isWon = false;
+      if (allX.indexOf(1)!=-1 && allX.indexOf(2)!=-1 && allX.indexOf(3)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(4)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(6)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(7)!=-1 && allX.indexOf(8)!=-1 && allX.indexOf(9)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(1)!=-1 && allX.indexOf(4)!=-1 && allX.indexOf(7)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(2)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(8)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(3)!=-1 && allX.indexOf(6)!=-1 && allX.indexOf(9)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(1)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(9)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(3)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(7)!=-1) {
+        isWon = true;
+      }
+      return isWon;
+    }
+  </script>
+</head>
+
+<body style="background-color:black;"></body>
+<center>
+<hr>
+<h1 style="color:white;">Tic Tac Toe</h1>
+<hr>
+<p style="color:grey;">How to Play</p>
+<p style="color:grey;">Left click on the Squares. Click 1 is "X". Click 2 is "O". Click 3 is blank/clear.</p>
+
+<table style="width:600px; height:600px">
+  <tr>
+    <th><img id="myImage1" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th>
+    <th><img id="myImage2" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th> 
+    <th><img id="myImage3" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th>
+  </tr>
+  <tr>
+    <th><img id="myImage4" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th>
+    <th><img id="myImage5" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th> 
+    <th><img id="myImage6" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th>
+  </tr>
+  <tr>
+    <th><img id="myImage7" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th>
+    <th><img id="myImage8" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th> 
+    <th><img id="myImage9" onclick="changeImage(this)" src="https://www.ps4wallpapers.com/wp-content/uploads/2020/02/2020-02-25_5e54f23a81520_670449.jpg" width="180" height="180"></th>
+  </tr>
+</table>
+
+<hr>
+<h3 style="color:grey">© Jacobus INC.™</h3>
+
+</center>
+
+
+</body>
+</html>
