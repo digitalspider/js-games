@@ -1,0 +1,170 @@
+<html>
+  <head>
+    <title>Car Race</title>
+    <style>
+      body {
+        align-content: center;
+        text-align: center;
+      }
+      .racetrack {
+        width: 100%;
+        background-color: lightblue;
+        height: 120px;
+        border: black thin solid;
+      }
+      .tile {
+        display: inline-block;
+        background-color: lightcoral;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+      }
+      .tile.active {
+        background-image: url('car1.jpg');
+      }
+      #race-buttons {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .race-button {
+        width: 200px;
+        height: 40px;
+        margin-top: 40px;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 20px;
+        background-color: lightgreen;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #winners {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .winner {
+        width: 200px;
+        height: 200px;
+        margin-top: 40px;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 20px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: url('trophy.jpg');
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      #restart-button {
+        width: 100px;
+        background-color: lightpink;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: large;
+      }
+    </style>
+    <script>
+      const RACE_LENGTH = 5;
+      const CARS = {
+        car0: {
+          name: 'David',
+          color: '#cccccc',
+        },
+        car1: {
+          name: 'Joshua',
+          color: '66de33',
+          image: 'car2.jpg'
+        },
+        car2: {
+          name: 'Faith',
+          color: 'lightpink',
+          image: 'car3.jpg'
+        },
+      };
+      function start() {
+        setup();
+      }
+      function setup() {
+        const racetracks = document.getElementById('racetracks');
+        const raceButtons = document.getElementById('race-buttons');
+        for (let racetrackId=0; racetrackId<Object.keys(CARS).length; racetrackId++) {
+          const carId = `car${racetrackId}`;
+          const car = CARS[carId];
+          const racetrack = document.createElement('div');
+          racetrack.setAttribute('class', 'racetrack');
+          racetrack.setAttribute('id', `racetrack${racetrackId}`);
+          racetracks.appendChild(racetrack);
+          const raceButton = document.createElement('div');
+          raceButton.setAttribute('class', 'race-button');
+          raceButton.setAttribute('id', carId);
+          raceButton.setAttribute('onclick', `moveCar(${racetrackId})`);
+          raceButton.textContent = car.name;
+          raceButton.style.backgroundColor = car.color;
+          raceButtons.appendChild(raceButton);
+          if (racetrack) {
+            for (let tileId = 0; tileId<RACE_LENGTH; tileId++) {
+              const tile = document.createElement('span');
+              tile.setAttribute('class', 'tile');
+              tile.setAttribute('id', `tile${tileId}`);
+              tile.style.width = `${100 / RACE_LENGTH}%`;
+              tile.textContent = '-';
+              racetrack.appendChild(tile);
+            }
+          }
+          setCar(racetrackId, car.position || 0);
+        }
+      }
+      function setCar(racetrackId, tileId) {
+        const car = CARS[`car${racetrackId}`];
+        const racetrack = document.getElementById(`racetrack${racetrackId}`);
+        const tiles = racetrack.getElementsByClassName('tile');
+        const tile = tileId < tiles.length ? tiles[tileId] : null;
+        if (tile) {
+          tile.style.backgroundColor = car.color;
+          const previousTile = tileId>0 && tiles[tileId-1];
+          if (car.image) {
+            if (previousTile) { previousTile.style.backgroundImage = ''; }
+            tile.style.backgroundImage = `url(${car.image})`;
+          } else {
+            if (previousTile) { previousTile.classList.remove('active'); }
+            tile.classList.add('active');
+          }
+        }
+      }
+      function moveCar(carId) {
+        const car = CARS[`car${carId}`];
+        if (!car.position) car.position = 0;
+        car.position++;
+        setCar(carId, car.position);
+        if (car.position === RACE_LENGTH-1) {
+          win(carId);
+        }
+      }
+      function win(carId) {
+        const car = CARS[`car${carId}`];
+        const winners = document.getElementById('winners');
+        const winner = document.createElement('winner');
+        winner.setAttribute('class', 'winner');
+        winner.setAttribute('id', `winner${carId}`);
+        const place = winners.childElementCount+1;
+        const placeSuffix = place === 1 ? 'st' : place === 2 ? 'nd' : place === 3 ? 'rd' : 'th';
+        winner.textContent = `${place}${placeSuffix} Place Winner: ${car.name}!`;
+        winners.appendChild(winner);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Car Race <button id="restart-button" onclick="window.location.reload(true)">Restart</button></h1>
+    <div id="content">
+      <div id="racetracks"></div>
+      <div id="race-buttons"></div>
+      <div id="winners"></div>
+    </div>
+    <script>start()</script>
+  </body>
+</html>
