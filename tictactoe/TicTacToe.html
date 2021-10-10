@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Grid -->
+  <style>
+    table, th, td {
+      border: 25px solid white;
+      border-collapse: collapse;
+    }
+  </style>
+  <script>
+    function changeImage(elementClicked) {
+      var source = elementClicked.getAttribute('src');
+      if (source.match("https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png")) {
+        elementClicked.src = "https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_x.jpg";
+      } else if (source.match("https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_x.jpg")){
+        elementClicked.src = "https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_o.jpg";
+      } else {
+  	    elementClicked.src = "https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png"
+      }
+      var xWon = isFinished('x');
+      var oWon = isFinished('o');
+      var xWonGame = document.getElementById('xWonGame');
+      var oWonGame = document.getElementById('oWonGame');
+      var gameTied = document.getElementById('gameTied');
+      if (xWon) {
+        xWonGame.style.display = 'block';
+      } else if (oWon) {
+        oWonGame.style.display = 'block';
+      } else {
+        xWonGame.style.display = 'none';
+        oWonGame.style.display = 'none';
+      }
+    }
+    function isFinished(letter) {
+      var allImages = document.getElementsByTagName('img');
+      var allX = [];
+      for (square of allImages) {
+        if (square.src.match(`https://lettersandnumbers.org/freealphabetletters/black/alphabet_letter_${letter}.jpg`)) {
+          allX.push(Number(square.id.substring(7,8)));
+        }
+      }
+      console.log(allX);
+      var isWon = false;
+      if (allX.indexOf(1)!=-1 && allX.indexOf(2)!=-1 && allX.indexOf(3)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(4)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(6)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(7)!=-1 && allX.indexOf(8)!=-1 && allX.indexOf(9)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(1)!=-1 && allX.indexOf(4)!=-1 && allX.indexOf(7)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(2)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(8)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(3)!=-1 && allX.indexOf(6)!=-1 && allX.indexOf(9)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(1)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(9)!=-1) {
+        isWon = true;
+      }
+      if (allX.indexOf(3)!=-1 && allX.indexOf(5)!=-1 && allX.indexOf(7)!=-1) {
+        isWon = true;
+      }
+      return isWon;
+    }
+    function restart() {
+        location.reload();
+    }
+  </script>
+</head>
+
+<body style="background-color:black;"></body>
+<center>
+<hr>
+<h1 style="color:white;">Tic Tac Toe</h1>
+<hr>
+<p style="color:grey;">How to Play</p>
+<p style="color:grey;">Left click on the Squares. The first click is "X". The second click is "O". The third click blank/clear.</p>
+
+<table style="width:600px; height:600px">
+  <tr>
+    <th><img id="myImage1" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th>
+    <th><img id="myImage2" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th> 
+    <th><img id="myImage3" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th>
+  </tr>
+  <tr>
+    <th><img id="myImage4" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th>
+    <th><img id="myImage5" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th> 
+    <th><img id="myImage6" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th>
+  </tr>
+  <tr>
+    <th><img id="myImage7" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th>
+    <th><img id="myImage8" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th> 
+    <th><img id="myImage9" onclick="changeImage(this)" src="https://user-images.githubusercontent.com/2279051/36819127-dc9e33ea-1c9c-11e8-9a93-0d3c0a674f02.png" width="180" height="180"></th>
+  </tr>
+</table>
+
+<p style="color:white; font-size:60px; display:none;" id="xWonGame">X Won!</p>
+<p style="color:white; font-size:60px; display:none;" id="oWonGame">O Won!</p>
+<p style="color:white; font-size:60px; display:none;" id="gameTied">Tie!</p>
+<button onclick="restart()">Restart</button>
+<hr>
+<h3 style="color:grey">© Jacobus INC.™</h3>
+
+</center>
+
+
+</body>
+</html>

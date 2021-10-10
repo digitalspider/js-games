@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <title>Car Race</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      .playButton {
+        font-size: 50px;
+      }
+      .race {
+        height: 100px;
+        background-color: black;
+      }
+      .spot {
+        height: 90%;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: inline-block;
+        padding-right: 200px;
+      }
+      .spot.active {
+        background-color: lightsalmon;
+        background-image: url('car1.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .trophies {
+        width: 100%;
+        align-items: center;
+      }
+      .trophy {
+        height: 150px;
+        width: 150px;
+        float: left;
+      }
+    </style>
+    <script>
+      const RACE_LENGTH = 9;
+      const CARS = 3;
+      let car1 = 1;
+      let car2 = 1;
+      function setup() {
+        const racetrack = document.getElementById('racetrack');
+        for (let i=1; i<=CARS; i++) {
+          const race = document.createElement('div');
+          race.setAttribute('id', 'race'+i);
+          race.classList.add('race');
+          racetrack.appendChild(race);
+          for (let j=1; j<=RACE_LENGTH; j++) {
+            race.innerHTML += `<div class="spot" id="spot${j}">${j}</div>`;
+          }
+          setCar(i, car1);
+          const trophy = document.getElementById('trophy'+i);
+          trophy.style.display = 'none';
+        }
+      }
+      function setCar(raceId, spotId) {
+        const race = document.getElementById('race'+raceId);
+        const spotList = race.getElementsByClassName('spot');
+        if (spotId >= RACE_LENGTH) {
+          const trophy = document.getElementById('trophy'+raceId);
+          trophy.style.display = 'block';
+        }
+        if (spotId > RACE_LENGTH) {
+          return;
+        }
+        for (let spot of spotList) {
+          spot.classList.remove('active');
+          if (spot.id === 'spot'+spotId) {
+            spot.classList.add('active');
+            break;
+          }
+        }
+      }
+      function run(raceId) {
+        if (raceId === 1) {
+          setCar(raceId, ++car1);
+        } else {
+          setCar(raceId, ++car2);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Car Race<button onclick="window.location.reload(true)">Restart</button></h1>
+    <div id="racetrack">
+    </div>
+    <div id="buttons">
+      <button class="playButton" id="playButton1" onclick="run(1)">Car1</button>
+      <button class="playButton" id="playButton2" onclick="run(2)">Car2</button>
+    </div>
+    <div id="trophies">
+      <img class="trophy" id="trophy1" src="trophy.jpg"></img>
+      <img class="trophy" id="trophy2" src="trophy.jpg"></img>
+      <img class="trophy" id="trophy3" src="trophy.jpg"></img>
+    </div>
+    <script>setup()</script>
+  </body>
+</html>
