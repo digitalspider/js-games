@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <title>Moving Objects</title>
+    <style>
+      .object {
+        width: 100px;
+        height: 20px;
+        background-color: blueviolet;
+        font: large;
+        color: yellow;
+        display: inline-block;
+        position: relative;
+      }
+      #blackbox {
+        width: 300px;
+        height: 300px;
+        background-color: black;
+        position: absolute;
+      }
+    </style>
+    <script>
+      function start() {
+        const object1 = document.getElementById('object1');
+        object1.style.backgroundColor = 'green';
+        object1.style.top = 280;
+        object1.style.left = 0;
+        const object2 = document.getElementById('object2');
+        object2.style.backgroundColor = 'purple';
+        object2.style.top = 280;
+        object2.style.left = 100;
+        document.addEventListener('keydown', onClick);
+        for (let i=0; i<10; i++) {
+          setTimeout(function(){
+            moveObject('up', 'object1');
+          }, i*1000);//Delay 1 seconds
+        }
+      }
+      function onClick(e) {
+        console.log(e.which)
+        if (e.which === 37) {
+          moveObject('left', 'object1');
+        } else if (e.which === 38) {
+          moveObject('up', 'object1');
+        } else if (e.which === 39) {
+          moveObject('right', 'object1');
+        } else if (e.which === 40) {
+          moveObject('down', 'object1');
+        } else if (e.which === 87) {
+          moveObject('up', 'object2');
+        } else if (e.which === 83) {
+          moveObject('down', 'object2');
+        } else if (e.which === 65) {
+          moveObject('left', 'object2');
+        } else if (e.which === 68) {
+          moveObject('right', 'object2');
+        }
+      }
+
+      function moveObject(dir, objectId) {
+        const object = document.getElementById(objectId);
+        if (dir == 'up') {
+          object.style.top = (Number(object.style.top.replace('px', '')) - 10)+'px';
+        } else if (dir == 'down') {
+          object.style.top = (Number(object.style.top.replace('px', '')) + 10)+'px';
+        } else if (dir == 'left') {
+          object.style.left = (Number(object.style.left.replace('px', '')) - 10)+'px';
+        } else if (dir == 'right') {
+          object.style.left = (Number(object.style.left.replace('px', '')) + 10)+'px';
+        }
+      }
+
+    </script>
+  </head>
+  <body>
+    <div id="blackbox">
+      <div class="object" id="object1">object1</div>
+      <div class="object" id="object2">object2</div>
+    </div>
+    <script>start()</script>
+  </body>
+</html>
