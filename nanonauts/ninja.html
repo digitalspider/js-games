@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <title>ninja</title>
+  </head>
+  <body>
+    <script>
+      // constants
+      const CANVAS_HEIGHT = 500;
+      const CANVAS_WIDTH = 500;
+      const SPACE_KEYCODE = 32;
+      const BACKGROUND_WIDTH = 1000;
+      var cameraX = 0;
+      var jump_height = 0;
+      var spaceKeyIsPressed = false;
+      var isJumping = false;
+      var jumpingUp = true;
+
+      // images
+      const backgroundImage = new Image();
+      backgroundImage.src = 'background.png';
+      const nanonautImage = new Image();
+      nanonautImage.src = 'nanonaut.png';
+
+      // setup
+      var canvas = document.createElement('canvas');
+      var c = canvas.getContext('2d');
+      canvas.width = CANVAS_WIDTH;
+      canvas.height = CANVAS_HEIGHT;
+      canvas.style = "border:3px solid #000";
+      document.body.appendChild(canvas);
+
+      // events
+      window.addEventListener('keydown', onKeyDown);
+      window.addEventListener('keyup', onKeyUp);
+      window.addEventListener('load', start);
+
+      function start() {
+        window.requestAnimationFrame(mainLoop);
+      }
+
+
+      function onKeyDown(event) {
+        if (event.keyCode === SPACE_KEYCODE) {
+          spaceKeyIsPressed = true
+        }
+      }
+
+      function onKeyUp(event) {
+        if (event.keyCode === SPACE_KEYCODE) {
+          spaceKeyIsPressed = false
+        }
+      }
+
+      //main loop
+      function mainLoop() {
+        update();
+        draw();
+        window.requestAnimationFrame(mainLoop);
+      }
+
+      function update() {
+        if (!isJumping && spaceKeyIsPressed) {
+          isJumping = true;
+        }
+        if (isJumping) {
+          if (jumpingUp && jump_height < 200) {
+            jump_height += 10;
+          } else {
+            if (jump_height > 0) {
+              jumpingUp = false;
+              jump_height -= 10;
+            } else {
+              jumpingUp = true;
+              isJumping = false;
+            }
+          }
+        }
+      }
+
+      function draw() {
+        // Draw the sky
+        c.fillStyle = 'LightSkyBlue';
+        c.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT - 40);
+
+        // Draw the land
+        c.fillStyle = "ForestGreen";
+        c.fillRect(0, CANVAS_HEIGHT - 40, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Draw the background
+        var backgroundX = - (cameraX % BACKGROUND_WIDTH)
+        c.drawImage(backgroundImage, backgroundX, -210)
+        c.drawImage(backgroundImage, backgroundX + BACKGROUND_WIDTH, -210)
+
+        // Draw the word Faith
+        c.font = '100px Comic Sans MS';
+        c.fillStyle = "blue";
+        c.fillText('Faith', 120, CANVAS_HEIGHT - 40 - jump_height, 200);
+
+        c.drawImage(nanonautImage, 300, 300, 100, 100)
+      }
+    </script>
+    
+  </body>
+</html>
