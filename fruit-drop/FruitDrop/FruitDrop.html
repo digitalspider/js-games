@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Fruit drop</title>
+<style>
+table#game {
+  width: 100%;
+  border: 1px solid black;
+  text-align: center;
+}
+table#game tr td {
+  height: 60px;
+}
+#header {
+  width: 100%;
+  text-align: center;
+}
+#scoreDiv {
+  width: 100%;
+  text-align: center;
+  color: grey;
+  font-size: 30px;
+}
+#gridSettings {
+  display: none;
+}
+#gridSize {
+  width: 30px;
+  font-size: 25px;
+}
+</style>
+</head>
+
+<body>
+<h1 id="header">Fruit drop</h1>
+<div id="scoreDiv">Score: <span id="score">0</span>&nbsp;&nbsp;<a href="">Reset</a><span id="gridSettings">&nbsp;Grid Size: <input type="textbox" id="gridSize" value="9"></input></span></div>
+
+<table id="game">
+</table>
+
+<script>
+const RESET_COLOUR = 'white';
+const TREE_COLOUR = 'green';
+const TRUNK_COLOUR = 'brown';
+const FRUIT_COLOURS = {
+  LEAF: 'lightgreen',
+  APPLE: 'lightpink',
+  BLUE: 'lightblue',
+  MANGO: 'orange',
+};
+const FRUIT_COLOUR_NAMES = Object.keys(FRUIT_COLOURS);
+const START_ROW=3;
+const GRID_SIZE=9;
+const HALF = Math.floor(GRID_SIZE/2);
+const ROWS=Array.from(Array(GRID_SIZE).keys());
+const VALID_ROWS = [...ROWS];
+const START_FALL_INTERVAL_IN_MS=1000;
+
+let fallIntervalInMs = START_FALL_INTERVAL_IN_MS;
+let score = 0;
+let fruitName = 'LEAF';
+
+setupGame();
+let y=getRandomColumn();
+let x=START_ROW;
+let fallInterval=setInterval(fall, fallIntervalInMs);
+
+function myClick(id) {
+  if (id.endsWith(GRID_SIZE-1)) return;
+  const cell = document.getElementById(id);
+  const bgColor = cell.style["background-color"];
+  const fruitColour = FRUIT_COLOURS[fruitName];
+  if (bgColor==fruitColour) {
+    switch(fruitColour) {
+      case FRUIT_COLOURS.APPLE: score += 5; break;
+      case FRUIT_COLOURS.BLUE: score += 10; break;
+      case FRUIT_COLOURS.MANGO: score += 100; break;
+      default: score++;
+    }
+  	document.getElementById("score").innerHTML = score;
+  	cell.style["background-color"] = RESET_COLOUR;
+  	cell.style["background-image"] = '';
+  	resetFall();
+  }
+}
+function getCell(colId,rowId) {
+  return `<td id="c${colId}${rowId}" onclick="myClick('c${colId}${rowId}')"></td>`
+}
+
+function getRow(rowId) {
+  const cells = ROWS.map((index) => getCell(index,rowId)).join('');
+  return `<tr>${cells}</tr>`
+};
+
+function setupGame() {
+  const GRID = ROWS.map((index) => getRow(index)).join('');
+  document.getElementById("game").innerHTML = GRID;
+  for (let i = 0; i < GRID_SIZE; i++) {
+    document.getElementById(`c${i}1`).setAttribute("style", `background:${TREE_COLOUR} no-repeat center; background-image: url(${fruitName.toLowerCase()}.jpg); height: 60px; `);
+  }
+  for (let i = 2; i < GRID_SIZE-2; i++) {
+    document.getElementById(`c${i}0`).setAttribute("style", `background:${TREE_COLOUR} no-repeat center; background-image: url(${fruitName.toLowerCase()}.jpg); height: 60px; `);
+    document.getElementById(`c${i}2`).setAttribute("style", `background:${TREE_COLOUR} no-repeat center; background-image: url(${fruitName.toLowerCase()}.jpg); height: 60px; `);
+  }
+  for (let i = 3; i < GRID_SIZE; i++) {
+    if (ROWS.length%2==0) {
+      document.getElementById(`c${HALF}${i}`).setAttribute("style", `background:${TRUNK_COLOUR};`);
+      document.getElementById(`c${HALF-1}${i}`).setAttribute("style", `background:${TRUNK_COLOUR};`);
+    } else {
+      document.getElementById(`c${HALF}${i}`).setAttribute("style", `background:${TRUNK_COLOUR};`);
+    }
+  }
+  if (ROWS.length%2==0) {
+    VALID_ROWS.splice(HALF-1, 2);
+  } else {
+    VALID_ROWS.splice(HALF, 1);
+  }
+}
+
+function fall() {
+  if (y==null) return;
+  //console.log(`${y}${x}`);
+  if(x<GRID_SIZE) {
+    document.getElementById(`c${y}${x}`).setAttribute("style", `background:${FRUIT_COLOURS[fruitName]} no-repeat center; background-image: url(${fruitName.toLowerCase()}.jpg); height: 60px; `);
+    if (x>START_ROW) {
+      document.getElementById(`c${y}${x-1}`).setAttribute("style", `background:${RESET_COLOUR};`);
+    }
+    x++;
+  } else {
+    VALID_ROWS.splice(VALID_ROWS.indexOf(y),1);
+    resetFall();
+  }
+}
+
+function resetFall() {
+  fallInterval && clearInterval(fallInterval);
+  x=START_ROW;
+  y=getRandomColumn();
+  fruitName = getRandomFruitName();
+  fallInterval = null;
+  if (y!=null) {
+    if (score > 100 && fallIntervalInMs>500) {
+  		fallIntervalInMs -= 100;
+  	}
+    fallInterval=setInterval(fall, fallIntervalInMs);
+  }
+}
+
+function getRandomFruitName() {
+  const index=Math.floor(Math.random() * FRUIT_COLOUR_NAMES.length);
+  return FRUIT_COLOUR_NAMES[index];
+}
+
+function getRandomColumn() {
+  if (VALID_ROWS.length==0) {
+    alert("Game Over");
+    return null;
+  }
+  const index=Math.floor(Math.random() * VALID_ROWS.length);
+  return VALID_ROWS[index];
+}
+
+</script>
+</body>
+
+</html>
